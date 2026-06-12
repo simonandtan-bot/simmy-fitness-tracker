@@ -202,7 +202,11 @@ const saveSyncBtn=document.getElementById('saveSyncSettings'); if(saveSyncBtn)sa
 const pullCloudBtn=document.getElementById('pullCloud'); if(pullCloudBtn)pullCloudBtn.onclick=pullCloudData;
 const pushCloudBtn=document.getElementById('pushCloud'); if(pushCloudBtn)pushCloudBtn.onclick=pushCloudData;
 const syncNowBtn=document.getElementById('syncNow'); if(syncNowBtn)syncNowBtn.onclick=syncNowData;
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(console.error);
+  });
+}
 loadForm(dstr(),false);render();
 </script>
 </body>

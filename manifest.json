@@ -1,9 +1,17 @@
 {
-  "name": "Simmy Fitness Tracker",
-  "short_name": "Simmy Fit",
-  "start_url": "index.html",
+  "name": "SimFit",
+  "short_name": "SimFit",
+  "description": "Simmy Fitness Tracker with cloud sync.",
+  "id": "/simmy-fitness-tracker/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "background_color": "#090806",
   "theme_color": "#090806",
-  "icons": []
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
 }
