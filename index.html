@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Simmy Fitness Tracker</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#090806">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{--bg:#090806;--panel:#12100c;--panel2:#18140e;--text:#f7f0df;--muted:#aa9f8b;--gold:#dca642;--cream:#ffe7b0;--green:#8fd36f;--orange:#e59a3f;--red:#e25f5f;--blue:#6ab6d8;--line:rgba(255,231,176,.16);--shadow:0 20px 60px rgba(0,0,0,.34)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top left,rgba(220,166,66,.16),transparent 34%),linear-gradient(180deg,#080604,#100d09 42%,#060504);color:var(--text);font-family:Inter,"Segoe UI",Arial,sans-serif}.app{max-width:1180px;margin:0 auto;padding:18px 14px 80px}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;align-items:stretch}.card{background:linear-gradient(180deg,rgba(28,23,16,.95),rgba(13,11,8,.96));border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:18px}.brand h1{font-size:34px;line-height:1;margin:0;letter-spacing:.5px}.brand h1 span{color:var(--gold)}.sub{color:var(--muted);margin:8px 0 0;font-size:14px}.reminder{margin-top:18px;border:1px solid rgba(220,166,66,.38);background:rgba(220,166,66,.1);border-radius:18px;padding:14px;color:var(--cream);font-weight:750}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.tab{border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--text);padding:10px 13px;border-radius:999px;cursor:pointer}.tab.active{background:rgba(220,166,66,.18);border-color:rgba(220,166,66,.7);color:var(--cream)}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.metric{padding:15px;border-radius:18px;background:rgba(255,255,255,.035);border:1px solid var(--line)}.metric .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.metric .value{font-size:26px;font-weight:900;margin-top:8px}.metric .hint{font-size:12px;color:var(--muted);margin-top:4px}.section{display:none}.section.active{display:block}.layout{display:grid;grid-template-columns:420px 1fr;gap:14px}.form{display:grid;gap:12px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}label{display:block;font-size:12px;color:var(--muted);font-weight:750;text-transform:uppercase;letter-spacing:.08em;margin:0 0 6px}input,select,textarea{width:100%;background:#080806;color:var(--text);border:1px solid var(--line);border-radius:14px;padding:12px;font:15px inherit;outline:none}textarea{min-height:70px;resize:vertical;text-transform:none}.meal textarea{min-height:62px}.btns{display:flex;gap:10px;flex-wrap:wrap}.btn{border:1px solid rgba(220,166,66,.6);background:rgba(220,166,66,.16);color:var(--cream);border-radius:14px;padding:12px 14px;cursor:pointer;font-weight:800}.btn.secondary{border-color:var(--line);background:rgba(255,255,255,.04);color:var(--text)}.btn.danger{border-color:rgba(226,95,95,.5);background:rgba(226,95,95,.12);color:#ffd1d1}.charts{display:grid;gap:14px}.chart-card{height:310px}.chart-card canvas{max-height:250px}.weekly{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.review-line{padding:13px 0;border-bottom:1px solid var(--line);font-size:15px;color:#eadfca}.review-line strong{color:var(--cream)}.entries{display:grid;gap:10px}.entry{display:grid;grid-template-columns:95px 1fr auto;gap:12px;align-items:start;border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:18px;padding:12px}.entry-date{color:var(--gold);font-weight:900}.pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:4px 8px;margin:3px 5px 3px 0;color:var(--muted);font-size:12px}.update-box textarea{min-height:180px;font-family:Consolas,monospace;font-size:12px}.tiny{font-size:12px;color:var(--muted);line-height:1.45}.export-output{min-height:180px;font-family:Consolas,monospace;font-size:12px}.status-none{color:var(--green)}.status-mid{color:var(--orange)}.status-high{color:var(--red)}.story{font-size:17px;line-height:1.55;color:#eadfca}.story strong{color:var(--cream)}.story .good{color:var(--green);font-weight:900}.milestones{display:grid;gap:10px}.mile{display:grid;grid-template-columns:70px 1fr auto;gap:10px;align-items:center}.mile-bar{height:10px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden;border:1px solid var(--line)}.mile-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--cream));border-radius:999px}.mile.done .mile-fill{background:linear-gradient(90deg,var(--green),var(--cream))}.scorecard{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:10px}.score-day{border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:14px;padding:10px;text-align:center}.score-day .dow{font-size:11px;color:var(--muted);text-transform:uppercase}.score-day .result{font-size:20px;font-weight:900;margin-top:5px}.score-day.yes .result{color:var(--green)}.score-day.no .result{color:var(--red)}.score-day.na .result{color:var(--muted)}
+@media(max-width:900px){.hero,.layout,.weekly{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.card{border-radius:18px;padding:15px}.brand h1{font-size:30px}.entry{grid-template-columns:1fr}.chart-card{height:290px}.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="hero">
+  <div class="card brand"><h1>SIMMY <span>FITNESS</span><br>TRACKER</h1><p class="sub">Private dashboard. Trend tracking. Behaviour awareness. No calorie nonsense.</p><div class="reminder" id="weeklyMotivationBanner">Beer two is the fork in the road. Coffee, goose.</div></div>
+  <div class="card"><div class="grid" id="metrics"></div></div>
+</header>
+<nav class="tabs"><button class="tab active" data-tab="dashboard">Dashboard</button><button class="tab" data-tab="entry">Daily Check-in</button><button class="tab" data-tab="weekly">Weekly Review</button><button class="tab" data-tab="data">Megan Update / Data</button><button class="tab" data-tab="sync">Cloud Sync</button></nav>
+<section id="dashboard" class="section active"><div class="charts"><div class="card"><label>Simmy story</label><div id="storyCard" class="story"></div></div><div class="card"><label>Milestones</label><div id="milestones" class="milestones"></div></div><div class="card"><label>Weight projection</label><div id="projectionCard" class="story"></div></div><div class="card"><label>Victories</label><div id="victoryCard" class="story"></div></div><div class="card"><label>Writing / weight pattern</label><div id="correlationCard" class="story"></div></div><div class="card chart-card"><label>Weight trend — 7-day average first, daily weigh-ins second</label><canvas id="weightChart"></canvas></div><div class="card chart-card"><label>Steps over time</label><canvas id="stepsChart"></canvas></div><div class="card chart-card"><label>Alcohol status versus next-day weight</label><canvas id="alcoholChart"></canvas></div><div class="card chart-card"><label>Writing hours by week</label><canvas id="writingChart"></canvas></div><div class="card"><label>Recent entries</label><div class="entries" id="entryList"></div></div></div></section>
+<section id="entry" class="section"><div class="layout"><div class="card"><form id="entryForm" class="form"><div class="row"><div><label>Date</label><input type="date" id="date"></div><div><label>Weight kg</label><input type="number" step="0.1" id="weight"></div></div><div class="row"><div><label>Steps</label><input type="number" id="steps"></div><div><label>Writing hours</label><input type="number" step="0.25" id="writingHours"></div></div><div class="meal"><label>Breakfast</label><textarea id="breakfast" placeholder="Type it like you’d tell Megan..."></textarea></div><div class="meal"><label>Lunch</label><textarea id="lunch"></textarea></div><div class="meal"><label>Dinner</label><textarea id="dinner"></textarea></div><div class="meal"><label>Snacks</label><textarea id="snacks"></textarea></div><div class="row"><div><label>Alcohol status</label><select id="alcoholStatus"><option>None</option><option>1–2 drinks</option><option>Over 2 drinks</option></select></div><div><label>Stopped at 2 beers</label><select id="stoppedAtTwoBeers"><option>Not applicable</option><option>Yes</option><option>No</option></select></div></div><div><label>Mood / energy</label><select id="moodEnergy"><option>Low</option><option>OK</option><option>Good</option><option>Great</option></select></div><div><label>Free notes</label><textarea id="notes"></textarea></div><div class="btns"><button class="btn" type="submit">Save entry</button><button class="btn secondary" type="button" id="loadToday">Load today</button><button class="btn danger" type="button" id="deleteEntry">Delete this date</button></div></form></div><div class="card"><label>Today’s coaching notebook</label><p class="tiny">This is deliberately boring in the best way. Fill in what happened. Bring the export to Megan when you want coaching.</p><div id="todaySummary" class="review-line"></div></div></div></section>
+<section id="weekly" class="section"><div class="weekly"><div class="card"><label>This week</label><div id="weeklyReview"></div><label style="margin-top:16px">2-beer rule scorecard</label><div id="beerScorecard" class="scorecard"></div></div><div class="card"><label>Notes worth carrying forward</label><textarea id="carryForward" placeholder="Add anything Megan should remember for the weekly review..."></textarea><div class="btns" style="margin-top:10px"><button class="btn" id="saveCarry">Save notes</button></div></div></div></section>
+<section id="data" class="section"><div class="layout"><div class="card update-box"><label>Megan Update</label><textarea id="jsonInput" placeholder='Paste JSON here. It can be a single entry, {"entry": {...}}, or full {"settings":..., "entries":[...]}'></textarea><div class="btns" style="margin-top:10px"><button class="btn" id="applyJson">Apply update</button><button class="btn secondary" id="exportJson">Export for Megan</button></div><p class="tiny">Local browser storage is the main store. Export JSON regularly if you want a backup file.</p></div><div class="card"><label>Export / backup</label><textarea class="export-output" id="jsonOutput" readonly></textarea><div class="btns" style="margin-top:10px"><button class="btn secondary" id="downloadJson">Download JSON</button><button class="btn danger" id="clearAll">Clear all local data</button></div></div></div></section>
+
+<section id="sync" class="section"><div class="layout"><div class="card"><label>Google Drive Sync Setup</label><p class="tiny">This syncs through a private Google Sheet in your Drive using the Apps Script web app URL and secret token from the setup pack.</p><div><label>Apps Script Web App URL</label><input type="url" id="syncUrl" placeholder="https://script.google.com/macros/s/.../exec"></div><div style="margin-top:10px"><label>Secret token</label><input type="password" id="syncSecret" placeholder="Paste your private token"></div><div class="btns" style="margin-top:10px"><button class="btn" id="saveSyncSettings">Save sync settings</button><button class="btn secondary" id="pullCloud">Pull from Google</button><button class="btn secondary" id="pushCloud">Push to Google</button><button class="btn" id="syncNow">Sync now</button></div><p class="tiny" id="syncStatus">Not configured yet.</p></div><div class="card"><label>How this behaves</label><div class="story">The tracker still opens instantly and saves locally first. Sync is an extra safety layer. <strong>Pull</strong> brings the latest Google copy onto this device. <strong>Push</strong> backs up this device to Google. <strong>Sync now</strong> compares timestamps and keeps the newest copy.</div></div></div></section>
+</div>
+<script>
+const KEY='simmy-fitness-tracker-v1';
+const defaults={settings:{startingWeight:114.6,weightUnit:'kg',stepGoal:8000,weeklyMotivation:'Beer two is the fork in the road. Coffee, goose.'},carryForward:'',victories:['Lost first 5kg'],entries:[{date:'2026-05-30',weight:108.4,steps:0,breakfast:'3 poached eggs, 4 slices bacon, 2 wholemeal toast, tasty cheese slice',lunch:'Big soup and two slices wholemeal toast',dinner:'',snacks:'',alcoholStatus:'Over 2 drinks',stoppedAtTwoBeers:'No',writingHours:0,moodEnergy:'Good',notes:'Happy with result after balanced Friday night with too much alcohol.'}]};
+let data=load();let charts={};
+const SYNC_KEY='simmy-fitness-sync-settings-v1';
+let syncSettings=loadSyncSettings();
+function loadSyncSettings(){try{return JSON.parse(localStorage.getItem(SYNC_KEY))||{url:'',secret:''}}catch(e){return {url:'',secret:''}}}
+function saveSyncSettingsLocal(){localStorage.setItem(SYNC_KEY,JSON.stringify(syncSettings));}
+function stampData(){data.updatedAt=new Date().toISOString();}
+
+function cloneDefaults(){return structuredClone(defaults)}
+function migrate(raw){
+  const base=cloneDefaults();
+  const d=raw&&typeof raw==='object'?raw:{};
+  d.settings={...base.settings,...(d.settings||{})};
+  d.entries=Array.isArray(d.entries)?d.entries.filter(e=>e&&e.date):base.entries;
+  d.carryForward=d.carryForward||'';
+  d.victories=Array.isArray(d.victories)?d.victories:base.victories;
+  return d;
+}
+function load(){try{return migrate(JSON.parse(localStorage.getItem(KEY)))}catch(e){return cloneDefaults()}}
+function save(){data=migrate(data);data.entries.sort((a,b)=>a.date.localeCompare(b.date));stampData();localStorage.setItem(KEY,JSON.stringify(data));render()}
+function dstr(d=new Date()){
+  const parts=new Intl.DateTimeFormat('en-AU',{timeZone:'Australia/Melbourne',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(d);
+  const get=t=>parts.find(p=>p.type===t)?.value;
+  return `${get('year')}-${get('month')}-${get('day')}`;
+}
+function parseLocalDate(s){const [y,m,d]=(s||dstr()).split('-').map(Number);return new Date(y,(m||1)-1,d||1)}
+
+function num(v){const n=Number(v);return Number.isFinite(n)?n:0}
+function byDate(date){return data.entries.find(e=>e.date===date)}
+function upsert(entry){upsertSilent(entry); save()}
+function upsertSilent(entry){
+  if(!entry||!entry.date)return;
+  const i=data.entries.findIndex(e=>e.date===entry.date);
+  if(i>=0)data.entries[i]={...data.entries[i],...entry};
+  else data.entries.push(entry);
+}
+function lastEntries(n=7){return [...data.entries].filter(e=>e.date).slice(-n)}
+function avg(arr){const vals=arr.map(Number).filter(Number.isFinite);return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0}
+function weekStart(date=new Date()){const d=new Date(date);const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);d.setHours(0,0,0,0);return d}
+function thisWeekEntries(){const s=weekStart();return data.entries.filter(e=>parseLocalDate(e.date)>=s)}
+function rolling(i){const arr=data.entries.slice(Math.max(0,i-6),i+1).map(e=>e.weight).filter(v=>v!==''&&v!=null).map(Number);return arr.length?avg(arr):null}
+function fmt(v,s=''){return (Number.isFinite(v)?(Math.round(v*10)/10):'—')+s}
+
+function currentWeight(){const current=[...data.entries].reverse().find(e=>e.weight);return current?num(current.weight):0}
+function weekName(dateStr){return new Date(dateStr+'T00:00:00').toLocaleDateString('en-AU',{weekday:'short'}).slice(0,3)}
+function renderStory(){const cw=currentWeight();const lost=data.settings.startingWeight-cw;const week=thisWeekEntries();const writing=week.reduce((a,e)=>a+num(e.writingHours),0);const high=week.filter(e=>e.alcoholStatus==='Over 2 drinks').length;const trend=trendText().replace('Weight is ','').replace('.','');const ruleDays=week.filter(e=>e.stoppedAtTwoBeers==='Yes').length;document.getElementById('storyCard').innerHTML=`<strong>Weight is down ${fmt(lost,'kg')}</strong> from your starting weight of ${data.settings.startingWeight}kg. Writing hours this week: <strong>${fmt(writing,'h')}</strong>. Alcohol exceeded target on <strong>${high}</strong> day${high===1?'':'s'}. The trend is <span class="good">${trend}</span>. 2-beer rule executed <strong>${ruleDays}</strong> time${ruleDays===1?'':'s'} this week.`}
+function renderMilestones(){const cw=currentWeight();const start=data.settings.startingWeight;const targets=[{w:114.6,t:'Start'},{w:110,t:'Broken'},{w:105,t:'Next target'},{w:100,t:'Century broken'},{w:95,t:'Long-term target'}];document.getElementById('milestones').innerHTML=targets.map(m=>{const done=cw<=m.w;const pct=m.w>=start?100:Math.max(0,Math.min(100,((start-cw)/(start-m.w))*100));return `<div class="mile ${done?'done':''}"><div><strong>${m.w}</strong>kg</div><div class="mile-bar"><div class="mile-fill" style="width:${pct}%"></div></div><div class="tiny">${m.t}${done?' ✓':''}</div></div>`}).join('')}
+function renderWeeklyMotivation(){
+  const msg=data.settings.weeklyMotivation||'Beer two is the fork in the road. Coffee, goose.';
+  const banner=document.getElementById('weeklyMotivationBanner');
+  if(banner&&banner.innerText!==msg)banner.innerText=msg;
+}
+function averageLossRate(){
+  const weights=data.entries.filter(e=>e.weight).map((e,i)=>({date:parseLocalDate(e.date),weight:num(e.weight),avg:rolling(i)})).filter(x=>Number.isFinite(x.weight));
+  if(weights.length<2)return null;
+  const latest=weights[weights.length-1];
+  const cutoff=new Date(latest.date); cutoff.setDate(cutoff.getDate()-28);
+  const recent=weights.filter(x=>x.date>=cutoff);
+  const sample=recent.length>=2?recent:weights;
+  const first=sample[0], last=sample[sample.length-1];
+  const firstWeight=Number.isFinite(first.avg)?first.avg:first.weight;
+  const lastWeight=Number.isFinite(last.avg)?last.avg:last.weight;
+  const days=Math.max(1,(last.date-first.date)/(1000*60*60*24));
+  const weeks=days/7;
+  const loss=firstWeight-lastWeight;
+  return loss>0&&weeks>0?loss/weeks:null;
+}
+function renderProjection(){
+  const el=document.getElementById('projectionCard'); if(!el)return;
+  const rate=averageLossRate(); const cw=currentWeight();
+  if(!rate){el.innerHTML='Not enough weight history yet. Add a few more weigh-ins and this will show your current average loss rate.';return}
+  const targets=[105,100,95].filter(t=>cw>t);
+  const lines=targets.map(t=>`${t}kg ≈ <strong>${fmt((cw-t)/rate,' weeks')}</strong>`).join('<br>');
+  el.innerHTML=`Current 28-day trend loss rate: <strong>${fmt(rate,'kg/week')}</strong>.<br>${lines||'You are already past the listed targets. Time to set the next one.'}`;
+}
+function renderVictories(){
+  const el=document.getElementById('victoryCard'); if(!el)return;
+  const cw=currentWeight(); const v=[...(data.victories||[])];
+  if(cw&&data.settings.startingWeight-cw>=5&&!v.includes('Lost first 5kg'))v.push('Lost first 5kg');
+  if(cw&&cw<110&&!v.includes('Broke 110kg'))v.push('Broke 110kg');
+  el.innerHTML=v.length?v.map(x=>`🏆 ${x}`).join('<br>'):'No victories logged yet. Add them with {"victories":["Lost first 5kg"]}.';
+}
+function renderCorrelation(){
+  const el=document.getElementById('correlationCard'); if(!el)return;
+  const weeks={};
+  data.entries.forEach(e=>{
+    const ws=dstr(weekStart(parseLocalDate(e.date)));
+    if(!weeks[ws])weeks[ws]={writing:0,weights:[],moods:[]};
+    weeks[ws].writing+=num(e.writingHours);
+    if(e.weight)weeks[ws].weights.push(num(e.weight));
+    if(e.moodEnergy)weeks[ws].moods.push(e.moodEnergy);
+  });
+  const rows=Object.keys(weeks).sort().map(k=>({week:k,writing:weeks[k].writing,avgWeight:avg(weeks[k].weights)})).filter(r=>r.avgWeight);
+  if(rows.length<2){el.innerHTML='Not enough weekly history yet. Once there are several weeks, this will compare writing hours and weight trend.';return}
+  const best=[...rows].sort((a,b)=>b.writing-a.writing)[0];
+  const latest=rows[rows.length-1];
+  el.innerHTML=`Highest writing week so far: <strong>${fmt(best.writing,'h')}</strong> from ${best.week}. Latest weekly average weight: <strong>${fmt(latest.avgWeight,'kg')}</strong>. Pattern notes will get more useful as the notebook fills.`;
+}
+
+function renderMetrics(){renderWeeklyMotivation();renderStory();renderMilestones();renderProjection();renderVictories();renderCorrelation();const current=[...data.entries].reverse().find(e=>e.weight);const cw=current?num(current.weight):0;const lost=data.settings.startingWeight-cw;const last7=lastEntries(7);const wavg=avg(last7.map(e=>e.weight).filter(Boolean));const week=thisWeekEntries();const prev=data.entries.slice(-14,-7);const weekWeights=week.map(e=>e.weight).filter(Boolean);const prevWeights=prev.map(e=>e.weight).filter(Boolean);const weeklyChange=(weekWeights.length&&prevWeights.length)?avg(weekWeights)-avg(prevWeights):null;const steps=avg(last7.map(e=>e.steps));const afree=week.filter(e=>e.alcoholStatus==='None').length;const twoRule=week.filter(e=>e.stoppedAtTwoBeers==='Yes').length;const writing=week.reduce((a,e)=>a+num(e.writingHours),0);document.getElementById('metrics').innerHTML=`<div class="metric"><div class="label">Current</div><div class="value">${fmt(cw,'kg')}</div><div class="hint">Latest saved weight</div></div><div class="metric"><div class="label">Lost</div><div class="value">${fmt(lost,'kg')}</div><div class="hint">From ${data.settings.startingWeight}kg</div></div><div class="metric"><div class="label">7-day avg</div><div class="value">${fmt(wavg,'kg')}</div><div class="hint">Trend, not noise</div></div><div class="metric"><div class="label">Weekly change</div><div class="value">${weeklyChange!==null?fmt(weeklyChange,'kg'):'—'}</div><div class="hint">${weeklyChange!==null?'This week vs previous':'Not enough data yet'}</div></div><div class="metric"><div class="label">Avg steps</div><div class="value">${Math.round(steps)||'—'}</div><div class="hint">Last 7 days</div></div><div class="metric"><div class="label">Alcohol-free</div><div class="value">${afree}</div><div class="hint">This week</div></div><div class="metric"><div class="label">2-beer rule</div><div class="value">${twoRule}</div><div class="hint">Followed this week</div></div><div class="metric"><div class="label">Writing</div><div class="value">${fmt(writing,'h')}</div><div class="hint">This week</div></div>`}
+function chart(id,type,labels,datasets,options={}){if(charts[id])charts[id].destroy();charts[id]=new Chart(document.getElementById(id),{type,data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#f7f0df'}}},scales:{x:{ticks:{color:'#aa9f8b'},grid:{color:'rgba(255,255,255,.07)'}},y:{ticks:{color:'#aa9f8b'},grid:{color:'rgba(255,255,255,.07)'}}},...options}})}
+function renderCharts(){const labels=data.entries.map(e=>e.date.slice(5));chart('weightChart','line',labels,[{label:'7-day average trend',data:data.entries.map((e,i)=>rolling(i)),tension:.35,borderWidth:5,pointRadius:3},{label:'Daily weigh-in noise',data:data.entries.map(e=>e.weight||null),tension:.35,borderWidth:1,pointRadius:2,borderDash:[4,4]}]);chart('stepsChart','bar',labels,[{label:'Steps',data:data.entries.map(e=>e.steps||0)}]);const alc=data.entries.slice(0,-1).map((e,i)=>({x:e.date.slice(5),y:data.entries[i+1].weight||null,status:e.alcoholStatus}));chart('alcoholChart','bar',alc.map(a=>a.x),[{label:'Next-day weight after alcohol status',data:alc.map(a=>a.y)}]);const weeks={};data.entries.forEach(e=>{const ws=dstr(weekStart(parseLocalDate(e.date)));weeks[ws]=(weeks[ws]||0)+num(e.writingHours)});chart('writingChart','bar',Object.keys(weeks),[{label:'Writing hours',data:Object.values(weeks)}])}
+function renderEntries(){document.getElementById('entryList').innerHTML=[...data.entries].reverse().slice(0,10).map(e=>`<div class="entry"><div class="entry-date">${e.date}</div><div><span class="pill">${e.weight||'—'}kg</span><span class="pill">${e.steps||0} steps</span><span class="pill ${e.alcoholStatus==='None'?'status-none':e.alcoholStatus==='Over 2 drinks'?'status-high':'status-mid'}">${e.alcoholStatus||'—'}</span><span class="pill">${e.writingHours||0}h writing</span><div class="tiny">${[e.breakfast,e.lunch,e.dinner,e.snacks,e.notes].filter(Boolean).join(' · ')}</div></div><button class="btn secondary" onclick="loadForm('${e.date}')">Edit</button></div>`).join('')||'<p class="tiny">No entries yet.</p>'}
+function trendText(){const last=lastEntries(7).map(e=>e.weight).filter(Boolean).map(Number);if(last.length<2)return 'Not enough weight data yet.';const diff=last[last.length-1]-last[0];return diff<-0.2?'Weight is trending down.':diff>0.2?'Weight is trending up.':'Weight is broadly flat.'}
+
+function renderBeerScorecard(){const w=thisWeekEntries();const days=[];const s=weekStart();for(let i=0;i<7;i++){const d=new Date(s);d.setDate(s.getDate()+i);const ds=dstr(d);const e=w.find(x=>x.date===ds);let cls='na',res='–';if(e){if(e.stoppedAtTwoBeers==='Yes'){cls='yes';res='✓'}else if(e.stoppedAtTwoBeers==='No'){cls='no';res='×'}else {cls='na';res='–'}}days.push(`<div class="score-day ${cls}"><div class="dow">${weekName(ds)}</div><div class="result">${res}</div></div>`)}document.getElementById('beerScorecard').innerHTML=days.join('')}
+function renderWeekly(){renderBeerScorecard();const w=thisWeekEntries();const high=w.filter(e=>e.alcoholStatus==='Over 2 drinks').length;const bumps=w.filter((e,i)=>e.alcoholStatus==='Over 2 drinks'&&w[i+1]&&num(w[i+1].weight)>num(e.weight)).length;const stepAvg=avg(w.map(e=>e.steps));const consistent=w.filter(e=>num(e.steps)>=data.settings.stepGoal).length;const writing=w.reduce((a,e)=>a+num(e.writingHours),0);document.getElementById('weeklyReview').innerHTML=`<div class="review-line"><strong>Trend:</strong> ${trendText()}</div><div class="review-line"><strong>Above target alcohol days:</strong> ${high}</div><div class="review-line"><strong>High-alcohol days followed by bumps:</strong> ${bumps}</div><div class="review-line"><strong>Steps:</strong> ${Math.round(stepAvg)||0} average; ${consistent} days at/above ${data.settings.stepGoal}.</div><div class="review-line"><strong>Writing hours:</strong> ${fmt(writing,'h')}</div><div class="review-line"><strong>Carry forward:</strong> ${data.carryForward||'Nothing saved yet.'}</div>`;document.getElementById('carryForward').value=data.carryForward||''}
+function loadForm(date=dstr(),switchToEntry=true){const e=byDate(date)||{date,alcoholStatus:'None',stoppedAtTwoBeers:'Not applicable',moodEnergy:'Good'};['date','weight','steps','breakfast','lunch','dinner','snacks','alcoholStatus','stoppedAtTwoBeers','writingHours','moodEnergy','notes'].forEach(id=>document.getElementById(id).value=e[id]??'');if(switchToEntry)document.querySelector('[data-tab="entry"]').click();updateTodaySummary()}
+function formEntry(){const ids=['date','weight','steps','breakfast','lunch','dinner','snacks','alcoholStatus','stoppedAtTwoBeers','writingHours','moodEnergy','notes'];let e={};ids.forEach(id=>e[id]=document.getElementById(id).value);e.weight=e.weight?Number(e.weight):'';e.steps=e.steps?Number(e.steps):0;e.writingHours=e.writingHours?Number(e.writingHours):0;return e}
+function updateTodaySummary(){const e=formEntry();document.getElementById('todaySummary').innerHTML=`<strong>${e.date||'Today'}:</strong> ${e.weight||'—'}kg, ${e.steps||0} steps, alcohol: ${e.alcoholStatus||'—'}, writing: ${e.writingHours||0}h. ${e.notes||''}`}
+
+function renderSyncSettings(){
+  const urlEl=document.getElementById('syncUrl'); const secEl=document.getElementById('syncSecret'); const st=document.getElementById('syncStatus');
+  if(urlEl)urlEl.value=syncSettings.url||''; if(secEl)secEl.value=syncSettings.secret||'';
+  if(st)st.innerText=syncSettings.url?'Sync configured. Local data updated: '+(data.updatedAt||'unknown'):'Not configured yet.';
+}
+async function cloudRequest(action,payload={}){
+  if(!syncSettings.url||!syncSettings.secret)throw new Error('Sync URL and token are required.');
+  const res=await fetch(syncSettings.url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,secret:syncSettings.secret,payload})});
+  const json=await res.json();
+  if(!json.ok)throw new Error(json.error||'Cloud sync failed.');
+  return json;
+}
+async function pushCloudData(){
+  const st=document.getElementById('syncStatus'); try{if(st)st.innerText='Pushing to Google...'; await cloudRequest('save',{data}); if(st)st.innerText='Pushed to Google at '+new Date().toLocaleString('en-AU');}
+  catch(e){if(st)st.innerText='Push failed: '+e.message; alert('Push failed: '+e.message)}
+}
+async function pullCloudData(){
+  const st=document.getElementById('syncStatus'); try{if(st)st.innerText='Pulling from Google...'; const r=await cloudRequest('load',{}); if(r.data){data=migrate(r.data);localStorage.setItem(KEY,JSON.stringify(data));render(); if(st)st.innerText='Pulled from Google at '+new Date().toLocaleString('en-AU');}else if(st)st.innerText='No Google backup found yet.';}
+  catch(e){if(st)st.innerText='Pull failed: '+e.message; alert('Pull failed: '+e.message)}
+}
+async function syncNowData(){
+  const st=document.getElementById('syncStatus'); try{if(st)st.innerText='Syncing...'; const r=await cloudRequest('load',{}); const cloud=r.data; if(!cloud){await pushCloudData();return}
+    const localTime=Date.parse(data.updatedAt||0); const cloudTime=Date.parse(cloud.updatedAt||0);
+    if(cloudTime>localTime){data=migrate(cloud);localStorage.setItem(KEY,JSON.stringify(data));render(); if(st)st.innerText='Cloud was newer. Pulled latest copy.';}
+    else {await cloudRequest('save',{data}); if(st)st.innerText='Local was newer. Pushed latest copy.';}
+  }catch(e){if(st)st.innerText='Sync failed: '+e.message; alert('Sync failed: '+e.message)}
+}
+function render(){renderMetrics();renderCharts();renderEntries();renderWeekly();document.getElementById('jsonOutput').value=JSON.stringify(data,null,2);renderSyncSettings()}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab,.section').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active');render()});
+document.getElementById('entryForm').onsubmit=e=>{e.preventDefault();upsert(formEntry())};document.getElementById('loadToday').onclick=()=>loadForm();document.getElementById('deleteEntry').onclick=()=>{const date=document.getElementById('date').value;if(confirm('Delete entry for '+date+'?')){data.entries=data.entries.filter(e=>e.date!==date);save();loadForm(date)}};document.getElementById('saveCarry').onclick=()=>{data.carryForward=document.getElementById('carryForward').value;save()};document.getElementById('applyJson').onclick=()=>{
+  try{
+    const raw=document.getElementById('jsonInput').value.trim();
+    if(!raw){alert('Paste a Megan update JSON block first.');return}
+    const j=JSON.parse(raw);
+
+    // Settings-only updates must be first-class citizens. They should not need an entry.
+    if(j.settings&&typeof j.settings==='object')data.settings={...data.settings,...j.settings};
+    if(j.weeklyMotivation!==undefined)data.settings.weeklyMotivation=String(j.weeklyMotivation);
+    if(j.stepGoal!==undefined)data.settings.stepGoal=Number(j.stepGoal)||data.settings.stepGoal;
+    if(j.startingWeight!==undefined)data.settings.startingWeight=Number(j.startingWeight)||data.settings.startingWeight;
+
+    if(Array.isArray(j.victories))data.victories=[...(data.victories||[]),...j.victories].filter((v,i,a)=>v&&a.indexOf(v)===i);
+    if(j.carryForward!==undefined)data.carryForward=String(j.carryForward);
+
+    // Entry updates are batched silently so one JSON import causes one save and one render.
+    if(Array.isArray(j.entries))j.entries.forEach(upsertSilent);
+    else if(j.entry)upsertSilent(j.entry);
+    else if(j.date)upsertSilent(j);
+
+    document.getElementById('jsonInput').value='';
+    save();
+    alert('Megan update applied.');
+  }catch(err){
+    console.error(err);
+    alert('That is not valid JSON, or the update could not be applied.');
+  }
+};document.getElementById('exportJson').onclick=()=>document.getElementById('jsonOutput').value=JSON.stringify(data,null,2);document.getElementById('downloadJson').onclick=()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='simmy-fitness-data.json';a.click()};document.getElementById('clearAll').onclick=()=>{if(confirm('Clear all local fitness tracker data?')){localStorage.removeItem(KEY);data=cloneDefaults();save();loadForm(dstr(),false)}};document.querySelectorAll('#entryForm input,#entryForm textarea,#entryForm select').forEach(el=>el.addEventListener('input',updateTodaySummary));
+
+const saveSyncBtn=document.getElementById('saveSyncSettings'); if(saveSyncBtn)saveSyncBtn.onclick=()=>{syncSettings={url:document.getElementById('syncUrl').value.trim(),secret:document.getElementById('syncSecret').value.trim()};saveSyncSettingsLocal();renderSyncSettings();alert('Sync settings saved on this device.');};
+const pullCloudBtn=document.getElementById('pullCloud'); if(pullCloudBtn)pullCloudBtn.onclick=pullCloudData;
+const pushCloudBtn=document.getElementById('pushCloud'); if(pushCloudBtn)pushCloudBtn.onclick=pushCloudData;
+const syncNowBtn=document.getElementById('syncNow'); if(syncNowBtn)syncNowBtn.onclick=syncNowData;
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
+loadForm(dstr(),false);render();
+</script>
+</body>
+</html>
